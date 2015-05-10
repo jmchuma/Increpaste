@@ -2,13 +2,17 @@ package com.xchuma.increpaste.ui;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.xchuma.increpaste.R;
+import com.xchuma.increpaste.persistence.EntryDS;
 
+import java.sql.SQLException;
 
 public class EditEntryActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -16,6 +20,25 @@ public class EditEntryActivity extends ActionBarActivity implements View.OnClick
 
     @Override /* View.OnClickListener */
     public void onClick(View view){
+        switch (view.getId()){
+            case R.id.button_cancel:
+                finish();
+                break;
+            case R.id.button_ok:
+                EntryDS ds = new EntryDS(this);
+                try {
+                    ds.open();
+
+                    EditText text = (EditText) findViewById(R.id.editText_entry);
+                    ds.create(text.getText().toString());
+                    ds.close();
+                    finish();
+                } catch (SQLException e) {
+                    Log.d(TAG, e.getMessage());
+                }
+
+                break;
+        }
     }
 
     @Override /* ActionBarActivity */
