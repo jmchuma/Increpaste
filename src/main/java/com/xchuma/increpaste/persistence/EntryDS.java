@@ -2,7 +2,6 @@ package com.xchuma.increpaste.persistence;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -22,26 +21,26 @@ public class EntryDS {
     private final String TAG = Entry.class.getName();
 
     private Context _context;
-    private DBHelper _dHelper;
+    private DBHelper _dbHelper;
     private SQLiteDatabase _db;
 
     public EntryDS(Context context) {
-        _dHelper = new DBHelper(context);
+        _dbHelper = new DBHelper(context);
         _context = context;
     }
 
     public void open() throws SQLException {
-        _db = _dHelper.getWritableDatabase();
+        _db = _dbHelper.getWritableDatabase();
     }
 
     public void close() {
-        _dHelper.close();
+        _dbHelper.close();
     }
 
     public long create(String text) {
         ContentValues values = new ContentValues();
-        values.put(_dHelper.ENTRY_TEXT, text);
-        values.put(_dHelper.ENTRY_POS, _context.getSharedPreferences("ENTRY_EXTRA", 0).getInt("LAST_POST", 0));
+        values.put(_dbHelper.ENTRY_TEXT, text);
+        values.put(_dbHelper.ENTRY_POS, _context.getSharedPreferences("ENTRY_EXTRA", 0).getInt("LAST_POST", 0));
 
         Log.d(TAG, "Adding "+values);
         long ans = _db.insert(DBHelper.TABLE_ENTRIES, null, values);
