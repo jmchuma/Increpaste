@@ -35,31 +35,27 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent i = getIntent();
+        if(i.getAction().equals(Intent.ACTION_SEND)) {
+            EntryDS ds = new EntryDS(this);
+            try {
+                ds.open();
+                ds.create(i.getStringExtra(Intent.EXTRA_TEXT));
+                ds.close();
+            } catch (SQLException e) {
+                Log.e(TAG, e.getMessage());
+            }
+
+            finish();
+        } else {
+            Log.i(TAG, i.getAction());
+        }
+
         setContentView(R.layout.activity_main);
 
         Button button = (Button) findViewById(R.id.button_editEntry);
         button.setOnClickListener(this);
-
-        EntryDS ds = new EntryDS(this);
-        int pos = 0;
-        try {
-            ds.open();
-
-            StringBuilder strBuilder = new StringBuilder();
-            for(Entry entry : ds.read()) {
-                strBuilder.append(entry.getText()+"\n");
-                if(entry.getPos() > pos) pos = entry.getPos();
-            }
-            TextView textView = (TextView) findViewById(R.id.textView_entries);
-            textView.setText(strBuilder);
-
-            ds.close();
-        } catch (SQLException e) {
-            Log.d(TAG, e.getMessage());
-        }
-
-        SharedPreferences entry_extra = getSharedPreferences("ENTRY_EXTRA", 0);
-        entry_extra.edit().putInt("LAST_POST", pos).commit();
     }
 
 
@@ -83,5 +79,32 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        int pos = 0;
+
+        try {
+            EntryDS ds = new EntryDS(this);
+            ds.open();
+
+            StringBuilder strBuilder = new StringBuilder();
+            for(Entry entry : ds.read()) {
+                strBuilder.append(entry.getText()+"\n");
+                if(entry.getPos() > pos) pos = entry.getPos();
+            }
+            TextView textView = (TextView) findViewById(R.id.textView_entries);
+            textView.setText(strBuilder);
+
+            ds.close();
+        } catch (SQLException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        SharedPreferences entry_extra = getSharedPreferences("ENTRY_EXTRA", 0);
+        entry_extra.edit().putInt("LAST_POST", pos).commit();
     }
 }
