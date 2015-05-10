@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Database schema version. Incremented when the database structure is changed.
      */
-    private static final int VERSION = 0;
+    private static final int VERSION = 1;
 
     /**
      * Name of database file.
