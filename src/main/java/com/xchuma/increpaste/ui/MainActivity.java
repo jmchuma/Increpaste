@@ -1,5 +1,6 @@
 package com.xchuma.increpaste.ui;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -40,6 +41,11 @@ public class MainActivity extends ActionBarActivity
         }
 
         setContentView(R.layout.activity_main);
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, new AllEntriesFragment());
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
 
