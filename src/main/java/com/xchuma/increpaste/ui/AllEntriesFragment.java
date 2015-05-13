@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +83,7 @@ public class AllEntriesFragment extends Fragment implements View.OnClickListener
             }
             TextView textView = (TextView) view.findViewById(R.id.textView_entries);
             textView.setText(strBuilder);
+            textView.setMovementMethod(new ScrollingMovementMethod());
 
             ds.close();
         } catch (SQLException e) {
