@@ -4,4 +4,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_edit_entry">Edit Entry</string>
+
+    <string name="toast_entry_added">Entry added</string>
 </resources>

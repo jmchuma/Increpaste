@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.xchuma.increpaste.R;
 import com.xchuma.increpaste.persistence.EntryDS;
@@ -31,6 +32,8 @@ public class MainActivity extends ActionBarActivity
                 ds.open();
                 ds.create(i.getStringExtra(Intent.EXTRA_TEXT));
                 ds.close();
+
+                Toast.makeText(this, R.string.toast_entry_added, Toast.LENGTH_SHORT).show();
             } catch (SQLException e) {
                 Log.e(TAG, e.getMessage());
             }

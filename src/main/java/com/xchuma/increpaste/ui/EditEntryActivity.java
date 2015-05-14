@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.xchuma.increpaste.R;
 import com.xchuma.increpaste.persistence.EntryDS;
@@ -32,6 +33,7 @@ public class EditEntryActivity extends ActionBarActivity implements View.OnClick
                     EditText text = (EditText) findViewById(R.id.editText_entry);
                     ds.create(text.getText().toString());
                     ds.close();
+                    Toast.makeText(this, R.string.toast_entry_added, Toast.LENGTH_SHORT).show();
                     finish();
                 } catch (SQLException e) {
                     Log.d(TAG, e.getMessage());
