@@ -7,6 +7,8 @@ import android.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -56,6 +58,13 @@ public class AllEntriesFragment extends Fragment implements View.OnClickListener
     @Override
     public void onCreate(Bundle savedState) {
         super.onCreate(savedState);
+
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_all, menu);
     }
 
     @Override

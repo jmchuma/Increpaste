@@ -72,6 +72,21 @@ public class MainActivity extends ActionBarActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_text_view) {
+            AllEntriesFragment allEntriesFragment = new AllEntriesFragment();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+            transaction.replace(R.id.fragment_container, allEntriesFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } else if (id == R.id.action_list_view) {
+            // Create new fragment and transaction
+            EntryListFragment entryListFragment = new EntryListFragment();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+            transaction.replace(R.id.fragment_container, entryListFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
 
         return super.onOptionsItemSelected(item);
