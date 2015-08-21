@@ -5,7 +5,12 @@
 
     <item android:id="@+id/action_text_view"
         android:title="Text view"
-        android:orderInCategory="99"
+        android:orderInCategory="96"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_show_dups"
+        android:title="Show duplicates"
+        android:orderInCategory="97"
         app:showAsAction="never" />
 
 </menu>

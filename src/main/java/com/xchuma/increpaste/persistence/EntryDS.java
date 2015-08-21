@@ -80,6 +80,12 @@ public class EntryDS {
         return list;
     }
 
+    public Cursor getCursor(){
+        return _db.query(DBHelper.TABLE_ENTRIES,
+                new String[]{DBHelper.COL_ID, DBHelper.ENTRY_POS, DBHelper.ENTRY_DATE, DBHelper.ENTRY_TEXT},
+                null, null, null, null, DBHelper.ENTRY_POS+" ASC");
+    }
+
     public void update() {
 
     }

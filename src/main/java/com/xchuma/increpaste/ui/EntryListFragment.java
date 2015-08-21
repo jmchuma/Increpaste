@@ -6,13 +6,10 @@ import android.app.ListFragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.xchuma.increpaste.R;
 
-import com.xchuma.increpaste.persistence.Entry;
+import com.xchuma.increpaste.persistence.EntryAdapter;
 import com.xchuma.increpaste.persistence.EntryDS;
 
 import java.sql.SQLException;
@@ -28,6 +25,12 @@ public class EntryListFragment extends ListFragment {
 
     private static final String TAG = EntryListFragment.class.getName();
 
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the
+     * fragment (e.g. upon screen orientation changes).
+     */
+    public EntryListFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,10 +42,9 @@ public class EntryListFragment extends ListFragment {
         try {
             EntryDS ds = new EntryDS(activity);
             ds.open();
-            setListAdapter(new ArrayAdapter<Entry>(activity,  android.R.layout.simple_list_item_1,
-                    android.R.id.text1, ds.read()));
+            setListAdapter(new EntryAdapter(activity, ds.getCursor(), 0));
 
-            ds.close();
+            //ds.close(); --> with CursorAdapter this can't be done
         } catch (SQLException e) {
             Log.e(TAG, e.getMessage());
         }
