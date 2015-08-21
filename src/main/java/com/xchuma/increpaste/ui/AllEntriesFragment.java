@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.xchuma.increpaste.persistence.Entry;
 import com.xchuma.increpaste.persistence.EntryDS;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class AllEntriesFragment extends Fragment implements View.OnClickListener {
 
@@ -106,5 +108,33 @@ public class AllEntriesFragment extends Fragment implements View.OnClickListener
 
     public interface OnNewEntryListener {
         void onNewEntry();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.action_del_dupes) {
+
+            EntryDS ds = new EntryDS(getActivity());
+            try {
+                ds.open();
+                ArrayList<String> uniques = new ArrayList<String>();
+
+                for(Entry entry : ds.read()) {
+                    if(uniques.contains(entry.getText())) {
+                        ds.delete(entry);
+                    } else
+                        uniques.add(entry.getText());
+                }
+
+                ds.close();
+            } catch (SQLException e){
+                Log.e(TAG, e.getMessage());
+            }
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -52,8 +52,8 @@ public class EntryDS {
         return ans;
     }
 
-    public void delete() {
-
+    public void delete(Entry entry) {
+        _db.delete(DBHelper.TABLE_ENTRIES, DBHelper.COL_ID + "=" + entry.getId(), null);
     }
 
     /**

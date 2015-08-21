@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 
 /**
- * Created by jmchuma on 8/21/15.
+ * Created by xchuma on 8/21/15.
  */
 public class EntryAdapter extends CursorAdapter {
 

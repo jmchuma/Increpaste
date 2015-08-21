@@ -7,4 +7,9 @@
         android:title="List view"
         android:orderInCategory="98"
         app:showAsAction="never" />
+
+    <item android:id="@+id/action_del_dupes"
+        android:title="Delete duplicates"
+        android:orderInCategory="97"
+        app:showAsAction="never" />
 </menu>
