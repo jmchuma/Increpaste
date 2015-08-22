@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Database schema version. Incremented when the database structure is changed.
      */
-    private static final int VERSION = 1;
+    private static final int VERSION = 3;
 
     /**
      * Name of database file.
@@ -59,15 +59,38 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS "+TABLE_ENTRIES+"("
             + COL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "
             + ENTRY_POS +" INTEGER NOT NULL, "
-            + ENTRY_DATE +" DATETIME DEFAULT CURRENT_TIMESTAMP, "
-            + ENTRY_TEXT +" TEXT NOT NULL);");
+            + ENTRY_DATE +" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, " // TODO this is not working
+            + ENTRY_TEXT +" TEXT UNIQUE NOT NULL);");
     }
 
     @Override
     public void onUpgrade(final SQLiteDatabase db, final int oldV, final int newV) {
         Log.w(TAG,
                 "Upgrading DB from version " + oldV + " to " + newV + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ENTRIES);
-        onCreate(db);
+
+        if(newV==3) {
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_ENTRIES + "_tmp");
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_ENTRIES + "_tmp("
+                    + COL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + ENTRY_POS + " INTEGER NOT NULL, "
+                    + ENTRY_DATE + " DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "
+                    + ENTRY_TEXT + " TEXT NOT NULL);");
+
+            // old -> tmp
+            db.execSQL("INSERT INTO " + TABLE_ENTRIES + "_tmp (" + ENTRY_POS + ", " + ENTRY_DATE+", "+ENTRY_TEXT + ")"
+                    + " SELECT "+ENTRY_POS+", "+ENTRY_DATE+", "+ENTRY_TEXT
+                    + " FROM "+TABLE_ENTRIES+";");
+
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_ENTRIES);
+
+            onCreate(db);
+
+            // tmp -> new
+            db.execSQL("INSERT INTO " + TABLE_ENTRIES + " (" + ENTRY_POS + ", " + ENTRY_DATE + ", " + ENTRY_TEXT + ")"
+                    + " SELECT " + ENTRY_POS + ", " + ENTRY_DATE + ", " + ENTRY_TEXT
+                    + " FROM " + TABLE_ENTRIES +"_tmp;");
+
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_ENTRIES + "_tmp");
+        }
     }
 }

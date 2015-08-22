@@ -41,6 +41,8 @@ public class EntryDS {
         ContentValues values = new ContentValues();
         values.put(_dbHelper.ENTRY_TEXT, text);
         values.put(_dbHelper.ENTRY_POS, _context.getSharedPreferences("ENTRY_EXTRA", 0).getInt("LAST_POST", 0));
+        //TODO remove this as soon as you figure out why CURRENT_TIMESTAMP in DBHelper doesn't work
+        values.put(_dbHelper.ENTRY_DATE, System.currentTimeMillis());
 
         Log.d(TAG, "Adding "+values);
         long ans = _db.insert(DBHelper.TABLE_ENTRIES, null, values);

@@ -6,4 +6,5 @@
     <string name="title_activity_edit_entry">Edit Entry</string>
 
     <string name="toast_entry_added">Entry added</string>
+    <string name="toast_entry_not_added">Entry not added</string>
 </resources>

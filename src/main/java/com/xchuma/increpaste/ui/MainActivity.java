@@ -30,10 +30,13 @@ public class MainActivity extends ActionBarActivity
             EntryDS ds = new EntryDS(this);
             try {
                 ds.open();
-                ds.create(i.getStringExtra(Intent.EXTRA_TEXT));
-                ds.close();
 
-                Toast.makeText(this, R.string.toast_entry_added, Toast.LENGTH_SHORT).show();
+                if(ds.create(i.getStringExtra(Intent.EXTRA_TEXT)) > -1)
+                    Toast.makeText(this, R.string.toast_entry_added, Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(this, R.string.toast_entry_not_added, Toast.LENGTH_SHORT).show();
+
+                ds.close();
             } catch (SQLException e) {
                 Log.e(TAG, e.getMessage());
             }
