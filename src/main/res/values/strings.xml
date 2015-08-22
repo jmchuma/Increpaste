@@ -7,4 +7,7 @@
 
     <string name="toast_entry_added">Entry added</string>
     <string name="toast_entry_not_added">Entry not added</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

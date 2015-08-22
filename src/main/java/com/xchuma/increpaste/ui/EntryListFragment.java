@@ -6,6 +6,8 @@ import android.app.ListFragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.ListView;
 
 import com.xchuma.increpaste.R;
 
@@ -54,4 +56,11 @@ public class EntryListFragment extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_list_fragment, menu);
     }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        //super.onListItemClick(l, v, position, id);
+        ((MainActivity) getActivity()).replaceFragment(new EditEntryFragment());
+    }
+
 }
