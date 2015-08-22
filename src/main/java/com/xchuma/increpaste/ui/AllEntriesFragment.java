@@ -25,7 +25,6 @@ import java.util.ArrayList;
 public class AllEntriesFragment extends Fragment implements View.OnClickListener {
 
     private final String TAG = AllEntriesFragment.class.getName();
-    private OnNewEntryListener _callback;
 
 
     @Override /* Fragment */
@@ -39,20 +38,13 @@ public class AllEntriesFragment extends Fragment implements View.OnClickListener
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        // Ensure that the activity implements the callback interface.
-        try {
-            _callback = (OnNewEntryListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnNewEntryListener");
-        }
     }
 
     @Override /* View.OnClickListener */
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_editEntry:
-                _callback.onNewEntry();
+                ((MainActivity) getActivity()).replaceFragment(new EditEntryFragment());
                 break;
         }
     }
@@ -103,11 +95,6 @@ public class AllEntriesFragment extends Fragment implements View.OnClickListener
 
         SharedPreferences entry_extra = activity.getSharedPreferences("ENTRY_EXTRA", 0);
         entry_extra.edit().putInt("LAST_POST", pos).apply();
-    }
-
-
-    public interface OnNewEntryListener {
-        void onNewEntry();
     }
 
     @Override

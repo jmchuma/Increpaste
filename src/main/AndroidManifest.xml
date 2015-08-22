@@ -23,10 +23,6 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.EditEntryActivity"
-            android:label="@string/title_activity_edit_entry" >
-        </activity>
     </application>
 
 </manifest>

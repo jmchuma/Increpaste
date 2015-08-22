@@ -16,8 +16,7 @@ import com.xchuma.increpaste.persistence.EntryDS;
 import java.sql.SQLException;
 
 
-public class MainActivity extends ActionBarActivity
-        implements AllEntriesFragment.OnNewEntryListener {
+public class MainActivity extends ActionBarActivity {
 
     private final String TAG = MainActivity.class.getName();
 
@@ -55,18 +54,11 @@ public class MainActivity extends ActionBarActivity
         transaction.commit();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    @Override /* AllEntriesFragment.OnNewEntryListener */
-    public void onNewEntry() {
-        Intent i = new Intent().setClass(this, EditEntryActivity.class);
-        startActivity(i);
     }
 
     @Override
