@@ -1,5 +1,6 @@
 package com.xchuma.increpaste.ui;
 
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -79,22 +80,18 @@ public class MainActivity extends ActionBarActivity
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_text_view) {
-            AllEntriesFragment allEntriesFragment = new AllEntriesFragment();
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-            transaction.replace(R.id.fragment_container, allEntriesFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            replaceFragment(new AllEntriesFragment());
         } else if (id == R.id.action_list_view) {
-            // Create new fragment and transaction
-            EntryListFragment entryListFragment = new EntryListFragment();
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-            transaction.replace(R.id.fragment_container, entryListFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            replaceFragment(new EntryListFragment());
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void replaceFragment(Fragment fragment) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
