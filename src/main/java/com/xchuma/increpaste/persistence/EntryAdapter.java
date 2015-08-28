@@ -31,6 +31,6 @@ public class EntryAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_2, parent, false);
+        return LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_activated_2, parent, false);
     }
 }
