@@ -85,7 +85,23 @@ public class EntryListFragment extends ListFragment {
                         break;
 
                     case R.id.action_delete:
-                        Toast.makeText(getActivity(), message + " deleted", Toast.LENGTH_SHORT).show();
+                        try {
+                            EntryDS ds = new EntryDS(getActivity());
+                            ds.open();
+                            positions = listView.getCheckedItemPositions();
+                            for(int i = 0; i < positions.size(); ++i) {
+                                cursor = (Cursor) listView.getItemAtPosition(positions.keyAt(i));
+                                long id = cursor.getLong(cursor.getColumnIndexOrThrow(DBHelper.COL_ID));
+                                ds.delete(id);
+
+                            }
+                            ((EntryAdapter)listView.getAdapter()).changeCursor(ds.getCursor());
+
+                            Toast.makeText(getActivity(), message + " deleted", Toast.LENGTH_SHORT).show();
+                        } catch (SQLException e) {
+                            Log.e(TAG, e.getMessage());
+                        }
+
                         mode.finish();
                         break;
 

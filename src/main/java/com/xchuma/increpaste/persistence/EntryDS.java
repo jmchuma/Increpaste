@@ -58,6 +58,10 @@ public class EntryDS {
         _db.delete(DBHelper.TABLE_ENTRIES, DBHelper.COL_ID + "=" + entry.getId(), null);
     }
 
+    public void delete(long id) {
+        _db.delete(DBHelper.TABLE_ENTRIES, DBHelper.COL_ID + "=" + id, null);
+    }
+
     /**
      *
      * @return a list with all the entries in the database.
