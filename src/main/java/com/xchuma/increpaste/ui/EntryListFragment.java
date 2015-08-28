@@ -1,9 +1,13 @@
 package com.xchuma.increpaste.ui;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.app.ListFragment;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +19,7 @@ import android.widget.Toast;
 
 import com.xchuma.increpaste.R;
 
+import com.xchuma.increpaste.persistence.DBHelper;
 import com.xchuma.increpaste.persistence.EntryAdapter;
 import com.xchuma.increpaste.persistence.EntryDS;
 
@@ -56,16 +61,31 @@ public class EntryListFragment extends ListFragment {
         listView.setMultiChoiceModeListener(new ListView.MultiChoiceModeListener() {
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                final int count = listView.getCheckedItemCount();
+                final String message = (count == 1) ? "One item " : count + " items ";
+
                 switch (item.getItemId()) {
                     case R.id.action_copy:
-                        Toast.makeText(getActivity(), "Copied to clipboard " + listView.getCheckedItemCount() +
-                                " items", Toast.LENGTH_SHORT).show();
+                        SparseBooleanArray positions = listView.getCheckedItemPositions();
+                        StringBuilder text = new StringBuilder();
+
+                        Cursor cursor;
+                        for(int i = 0; i < positions.size(); ++i) {
+                            cursor = (Cursor) listView.getItemAtPosition(positions.keyAt(i));
+                            text.append(cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.ENTRY_TEXT))+"\n");
+                        }
+
+                        ClipboardManager clipboard = (ClipboardManager)
+                                getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
+                        clipboard.setPrimaryClip(ClipData.newPlainText(null, text));
+
+                        Toast.makeText(getActivity(), message + " copied to clipboard", Toast.LENGTH_SHORT).show();
+
                         mode.finish();
                         break;
 
                     case R.id.action_delete:
-                        Toast.makeText(getActivity(), "Deleted " + listView.getCheckedItemCount() +
-                                " items", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), message + " deleted", Toast.LENGTH_SHORT).show();
                         mode.finish();
                         break;
 
@@ -138,7 +158,6 @@ public class EntryListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        //super.onListItemClick(l, v, position, id);
         ((MainActivity) getActivity()).replaceFragment(new EditEntryFragment());
     }
 

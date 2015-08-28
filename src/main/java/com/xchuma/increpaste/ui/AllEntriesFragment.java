@@ -35,11 +35,6 @@ public class AllEntriesFragment extends Fragment implements View.OnClickListener
         button.setOnClickListener(this);
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
     @Override /* View.OnClickListener */
     public void onClick(View view) {
         switch (view.getId()) {
@@ -72,7 +67,6 @@ public class AllEntriesFragment extends Fragment implements View.OnClickListener
         super.onResume();
 
         Activity activity = getActivity();
-        View view = getView();
         int pos = 0;
 
         try {
@@ -84,7 +78,7 @@ public class AllEntriesFragment extends Fragment implements View.OnClickListener
                 strBuilder.append(entry.getText()+"\n");
                 if(entry.getPos() > pos) pos = entry.getPos();
             }
-            TextView textView = (TextView) view.findViewById(R.id.textView_entries);
+            TextView textView = (TextView) getView().findViewById(R.id.textView_entries);
             textView.setText(strBuilder);
             textView.setMovementMethod(new ScrollingMovementMethod());
 
@@ -106,13 +100,13 @@ public class AllEntriesFragment extends Fragment implements View.OnClickListener
             EntryDS ds = new EntryDS(getActivity());
             try {
                 ds.open();
-                ArrayList<String> uniques = new ArrayList<String>();
+                ArrayList<String> unique = new ArrayList<>();
 
                 for(Entry entry : ds.read()) {
-                    if(uniques.contains(entry.getText())) {
+                    if(unique.contains(entry.getText())) {
                         ds.delete(entry);
                     } else
-                        uniques.add(entry.getText());
+                        unique.add(entry.getText());
                 }
 
                 ds.close();
